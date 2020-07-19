@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Castle.Core.Internal;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -78,7 +79,7 @@ namespace Assignment9
 
             for(var index = 0; index < users.Count; index++)
             {
-                if(users[index].Username == user.Username)
+                if(users[index]?.Username == user?.Username)
                 {
                     count++;
                 }
@@ -86,7 +87,7 @@ namespace Assignment9
 
             if (count == 0)
             {
-                users.Add((User)user);
+                users?.Add((User)user);
 
                 var json = JsonConvert.SerializeObject(users);
 
@@ -104,13 +105,13 @@ namespace Assignment9
 
             if(users is null)
             {
-                Console.WriteLine("You currently do not have a user selected, please create a user, or access an existing user, and try again.");
+                users = new List<User>();
             }
 
-            for (var index = 0; index < users.Count; index++)
+            for (var index = 0; index < users?.Count; index++)
             {
                 var item = users[index];
-                if(item.Username == user.Username)
+                if(item?.Username == user?.Username)
                 {
                     users[index].Wins += user.Wins;
                     users[index].Losses += user.Losses;

@@ -1,4 +1,6 @@
-﻿namespace Assignment9
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Assignment9
 {
     /// <summary>
     /// 
@@ -14,10 +16,6 @@
         #endregion
 
         #region Properties
-
-        public int Wins { get; set; }
-        public int Losses { get; set; }
-        public int Draws { get; set; }
 
         /// <summary>
         /// 
@@ -60,11 +58,9 @@
         /// </summary>
         /// <param name="user"></param>
         /// <param name="tempScoreHolder"></param>
-        public void UpdateDataBaseAndClearSessionScores(IUser user, User tempScoreHolder)
+        [ExcludeFromCodeCoverage]
+        public void UpdateDataBaseAndClearSessionScores(IUser user)
         {
-            tempScoreHolder.Wins += user.Wins;
-            tempScoreHolder.Losses += user.Losses;
-
             DataAccess.Instance.UpdateUser(user);
             SessionControl.Session.ResetSessionScore();
         }
