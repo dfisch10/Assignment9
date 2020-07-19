@@ -237,10 +237,6 @@ namespace Assignment9
         {
             var option = MenuUtilities.receiveMenuOptionOneThroughFive();
             var menuRecall = true;
-            var tempScoreHolder = new User
-            {
-                Username = user.Username
-            };
 
             switch (option)
             {
@@ -253,12 +249,12 @@ namespace Assignment9
                     if (user.Wins == 1)
                     {
                         MessageDisplayUtilities.PositiveMessageDisplay("Player Won The Suddent Death!");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
                     else if (user.Losses == 1)
                     {
                         MessageDisplayUtilities.NegativeMessageDisplay("AI Won The Sudden Death");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
 
                     break;
@@ -271,12 +267,12 @@ namespace Assignment9
                     if (user.Wins == 2)
                     {
                         MessageDisplayUtilities.PositiveMessageDisplay("Player Won The Triple Threat!");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
                     else if (user.Losses == 2)
                     {
                         MessageDisplayUtilities.NegativeMessageDisplay("AI Won The Triple Threat");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
 
                     break;
@@ -289,12 +285,12 @@ namespace Assignment9
                     if (user.Wins == 3)
                     {
                         MessageDisplayUtilities.PositiveMessageDisplay("Player Won The Drive For Five!");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
                     else if (user.Losses == 3)
                     {
                         MessageDisplayUtilities.NegativeMessageDisplay("AI Won The Drive For Five");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
 
                     break;
@@ -307,17 +303,17 @@ namespace Assignment9
                     if (user.Wins == 6)
                     {
                         MessageDisplayUtilities.PositiveMessageDisplay("Player Won The Ten Tour!");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
                     else if (user.Losses == 6)
                     {
                         MessageDisplayUtilities.NegativeMessageDisplay("AI Won The Ten Tour");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
                     else if (user.Wins == 5 && user.Losses == 5)
                     {
                         MessageDisplayUtilities.MenuMessageDisplay("You and the AI have tied for The Ten Tour");
-                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user, tempScoreHolder);
+                        SessionControl.Session.UpdateDataBaseAndClearSessionScores(user);
                     }
 
                     break;

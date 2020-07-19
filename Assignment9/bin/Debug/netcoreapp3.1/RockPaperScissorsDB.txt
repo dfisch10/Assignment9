@@ -1,1 +1,1 @@
-[{"Username":"DANIEL","Wins":4,"Losses":2,"Draws":0,"WinPercentage":66}]
+[{"Username":"DANIEL","Wins":19,"Losses":11,"Draws":5,"WinPercentage":54},{"Username":"TEST","Wins":5,"Losses":2,"Draws":1,"WinPercentage":62},{"Username":"TESTING","Wins":1,"Losses":0,"Draws":1,"WinPercentage":50}]
