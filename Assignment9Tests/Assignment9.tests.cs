@@ -33,7 +33,11 @@ namespace Assignment9.tests
 
             var actual = sut;
 
-            Assert.Equal(actual.ToString(), expectedResult.ToString());
+            Assert.Equal(actual.Username, expectedResult.Username);
+            Assert.Equal(actual.WinPercentage, expectedResult.WinPercentage);
+            Assert.Equal(actual.Wins, expectedResult.Wins);
+            Assert.Equal(actual.Losses, expectedResult.Losses);
+            Assert.Equal(actual.Draws, expectedResult.Draws);
         }
 
         public static IEnumerable<object[]> UserData => new List<object[]>
@@ -61,7 +65,11 @@ namespace Assignment9.tests
 
             DataAccess.Instance.AddUser(sut);
 
-            Assert.Equal(sut.ToString(), DataAccess.Instance.GetSingleUser(sut.Username).ToString());
+            Assert.Equal(sut.Username, DataAccess.Instance.GetSingleUser(sut.Username).Username);
+            Assert.Equal(sut.WinPercentage, DataAccess.Instance.GetSingleUser(sut.Username).WinPercentage);
+            Assert.Equal(sut.Wins, DataAccess.Instance.GetSingleUser(sut.Username).Wins);
+            Assert.Equal(sut.Losses, DataAccess.Instance.GetSingleUser(sut.Username).Losses);
+            Assert.Equal(sut.Draws, DataAccess.Instance.GetSingleUser(sut.Username).Draws);
         }
 
         public static IEnumerable<object[]> UserData2 => new List<object[]>
@@ -72,7 +80,7 @@ namespace Assignment9.tests
             new object[] { "",1, 1, 1 },
             new object[] { "dAnIel", 0, 0, 0 },
             new object[] { "LUCAS", null, null, 1 },
-            new object[] { "test@in9", 54, 23, null }
+            new object[] { "test@in", 54, 23, null }
         };
 
         [Theory]
