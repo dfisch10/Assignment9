@@ -171,28 +171,6 @@ namespace Assignment9.tests
             new object[] { new User { Username = null, Wins = 10, Losses = 10, Draws = 10} }
         };
 
-       /* [Theory]
-        [MemberData(nameof(LoginMenuLogicData))]
-        public void LoginMenuLogic_VariousInputPassedIn_ReturnsValid(bool expectedResult, string input)
-        {
-            IUser user = new User
-            {
-                Username = "testinglogic"
-            };
-            var sut = new MenuOptionLogic();
-            MenuUtilities.LoginMenu(out expectedResult, user);
-            sut.LoginMenuLogic(out user);
-
-            Assert.Equal(expectedResult,sut.LoginMenuLogic(out user));
-        }
-
-        public static IEnumerable<object[]> LoginMenuLogicData => new List<object[]>
-        {
-            new object[] { false, "1" },
-            new object[] { false, "2" },
-            new object[] { false, "5" },
-        };*/
-
         [Fact]
         public void SortAndOrganizeScores_ComparingTwoUserBasedOffOfWinPercentage_ReturnsValid()
         {
