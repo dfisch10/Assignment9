@@ -6,7 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace Assignment9
 {
     /// <summary>
-    /// 
+    /// This class contains the various display methods for all the different menus in the game, as well as the methods needed to compare the user input to the confirm it is one of the accepted
+    /// inputs, and return that input in the appropriate format.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class MenuUtilities
@@ -14,10 +15,10 @@ namespace Assignment9
         #region Methods
 
         /// <summary>
-        /// 
+        /// Displays the intitial Login Menu when starting the appliation, allowing users to see the initial menu options
         /// </summary>
-        /// <param name="loginRecall"></param>
-        /// <param name="loginSelection"></param>
+        /// <param name="loginRecall">Determines if the while loop for this menu should be broken or continued.</param>
+        [ExcludeFromCodeCoverage]
         public static void LoginMenu(out bool loginRecall, IUser user)
         {
             var menuLogic = new MenuOptionLogic();
@@ -34,10 +35,8 @@ namespace Assignment9
             MessageDisplayUtilities.MenuMessageDisplay("*                                *");
             MessageDisplayUtilities.MenuMessageDisplay("**********************************");
 
-            loginRecall = menuLogic.ScoreCardAccounts(out user);
-
+            loginRecall = menuLogic.LoginMenuLogic(out user);
             var gameModeRecall = true;
-
             while (gameModeRecall)
             {
                 MenuUtilities.GameModeMenu(out gameModeRecall, user);
@@ -45,11 +44,13 @@ namespace Assignment9
         }
 
         /// <summary>
-        /// 
+        /// Displays the Game mode menu, which is used to welcome the player depending on in if they are new, or a returning player. As well as displaying the various game modes/types 
+        /// available for the user to select, including: Sudden Death(first win/loss determines victor), Triple Threat(best out of 3 mode), Drive For Five(best out of 5 mode), 
+        /// and The Test Tour (best out of 10 mode).
         /// </summary>
-        /// <param name="gameModeRecall"></param>
-        /// <param name="gameModeSelection"></param>
-        /// <param name="user"></param>
+        /// <param name="gameModeRecall">Determines if the while loop for this menu should be broken or continued.</param>
+        /// <param name="user">The user that is currently logged in</param>
+        [ExcludeFromCodeCoverage]
         public static void GameModeMenu(out bool gameModeRecall, IUser user)
         {
             var menuLogic = new MenuOptionLogic();
@@ -64,7 +65,6 @@ namespace Assignment9
                     count++;
                 }
             }
-
             if (count == 0)
             {
                 welcome = "Welcome " + user.Username + ", please make your selection:";
@@ -87,11 +87,12 @@ namespace Assignment9
         }
 
         /// <summary>
-        /// 
+        /// Displays the game menu which shows the player the options available while in a particular game mode, such as: rock, paper, or scissors. As well as showing their current win/losses/draws for 
+        /// that particular session of the game mode they are in.
         /// </summary>
-        /// <param name="menuRecall"></param>
-        /// <param name="menuSelection"></param>
-        /// <param name="user"></param>
+        /// <param name="menuRecall">Determines if the while loop for this menu should be broken or continued.</param>
+        /// <param name="user">The user that is currently logged in</param>
+        [ExcludeFromCodeCoverage]
         public static void GameMenu(out bool menuRecall, IUser user)
         {
             var menuLogic = new MenuOptionLogic();
@@ -111,15 +112,14 @@ namespace Assignment9
         }
 
         /// <summary>
-        /// 
+        /// Takes the console readline input from the user after they were prompted, and confirms that it falls within the approved list of options, which is then returned if correct, or throws an error
+        /// message if an invalid input was made.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns the valid input, or a message stating that the input was invalid and listing the correct input options.</returns>
         public static int receiveMenuOptionOneThroughFive()
         {
             Console.Write("\r\nPlease select an option: ");
-
             var inputOptions = new List<string> { "1", "2", "3", "4", "5" };
-
             string input = Console.ReadLine();
 
             if (!CompareUserInputToAcceptedOptionsList(input, inputOptions))
@@ -132,31 +132,50 @@ namespace Assignment9
         }
 
         /// <summary>
-        /// 
+        /// Takes the console readline input from the user after they were prompted, and confirms that it falls within the approved list of options, which is then returned if correct, or throws an error
+        /// message if an invalid input was made.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Returns the valid input, or a message stating that the input was invalid and listing the correct input options.</returns>
         public static int receiveMenuOptionOneThroughFour()
         {
             Console.Write("\r\nPlease select an option: ");
-
             var inputOptions = new List<string> { "1", "2", "3", "4" };
-
             string input = Console.ReadLine();
 
             if (!CompareUserInputToAcceptedOptionsList(input, inputOptions))
             {
                 MessageDisplayUtilities.NegativeMessageDisplay("The only valid inputs are 1-4, please try again.");
 
-                return receiveMenuOptionOneThroughFive();
+                return receiveMenuOptionOneThroughFour();
             }
             return ConvertStringToInt(input);
         }
 
         /// <summary>
-        /// 
+        /// Takes the console readline input from the user after they were prompted, and confirms that it falls within the approved list of options, which is then returned if correct, or throws an error
+        /// message if an invalid input was made.
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="inputOptions"></param>
+        /// <returns>Returns the valid input, or a message stating that the input was invalid and listing the correct input options.</returns>
+        public static int receiveMenuOptionOneOrTwo()
+        {
+            Console.Write("\r\nPlease select an option: ");
+            var inputOptions = new List<string> { "1", "2" };
+            string input = Console.ReadLine();
+
+            if (!CompareUserInputToAcceptedOptionsList(input, inputOptions))
+            {
+                MessageDisplayUtilities.NegativeMessageDisplay("The only valid inputs are 1-2, please try again.");
+
+                return receiveMenuOptionOneOrTwo();
+            }
+            return ConvertStringToInt(input);
+        }
+
+        /// <summary>
+        /// Compares the users input options to a list of approved input, and returns that value if it is contained within the list.
+        /// </summary>
+        /// <param name="input">The input the user typed in via console.readline()</param>
+        /// <param name="inputOptions">A list of type string which contains the accepted inputs allowed.</param>
         /// <returns></returns>
         public static bool CompareUserInputToAcceptedOptionsList(string input, List<string> inputOptions)
         {
@@ -164,9 +183,9 @@ namespace Assignment9
         }
 
         /// <summary>
-        /// 
+        /// Converts the user input from console.readling() from string to int format.
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="input">The input the user typed in via console.readline()</param>
         /// <returns></returns>
         public static int ConvertStringToInt(string input)
         {
