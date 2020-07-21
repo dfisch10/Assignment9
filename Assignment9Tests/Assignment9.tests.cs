@@ -113,6 +113,8 @@ namespace Assignment9.tests
         [MemberData(nameof(UserData4))]
         public void UpdateUser_VariousScoresAddedToExistingUsers_ReturnsValid(IUser user, User expectedResult)
         {
+ 
+            DataAccess.Instance.EraseAllUserData();
             var sut = new User();
             DataAccess.Instance.AddUser(user);
             DataAccess.Instance.UpdateUser(user);
@@ -121,7 +123,7 @@ namespace Assignment9.tests
             {
                 if(item.Username == expectedResult.Username)
                 {
-                    sut = item;
+                    sut = (User)item;
                 }
             }
 
@@ -136,7 +138,7 @@ namespace Assignment9.tests
             new object[] { new User { Username = "test", Wins = 1, Losses = 1, Draws = 1}, new User { Username = "test", Wins = 2, Losses = 2, Draws = 2} },
             new object[] { new User { Username = "n@me", Wins = 154, Losses = 101, Draws = 15 }, new User { Username = "n@me", Wins = 308, Losses = 202, Draws = 30 } },
             new object[] { new User { Username = "testing", Wins = 0, Losses = 0, Draws = 0}, new User { Username = "testing", Wins = 0, Losses = 0, Draws = 0} },
-            new object[] { new User { Username = "", Wins = 1, Losses = 2, Draws = 1}, new User { Username = "", Wins = 2, Losses = 3, Draws = 2} },
+            new object[] { new User { Username = "", Wins = 1, Losses = 2, Draws = 1}, new User { Username = "", Wins = 2, Losses = 4, Draws = 2} },
             new object[] { new User { Username = "dAnIel", Wins = 0, Losses = 0, Draws = 0}, new User { Username = "dAnIel", Wins = 0, Losses = 0, Draws = 0} },
             new object[] { new User { Username = "LUCAS", Wins = 0, Losses = 0, Draws = 1}, new User { Username = "LUCAS", Wins = 0, Losses = 0, Draws = 2} },
             new object[] { new User { Username = null, Wins = 0, Losses = 0, Draws = 0}, new User { Username = null, Wins = 0, Losses = 0, Draws = 0} }
@@ -169,5 +171,110 @@ namespace Assignment9.tests
             new object[] { new User { Username = null, Wins = 10, Losses = 10, Draws = 10} }
         };
 
+       /* [Theory]
+        [MemberData(nameof(LoginMenuLogicData))]
+        public void LoginMenuLogic_VariousInputPassedIn_ReturnsValid(bool expectedResult, string input)
+        {
+            IUser user = new User
+            {
+                Username = "testinglogic"
+            };
+            var sut = new MenuOptionLogic();
+            MenuUtilities.LoginMenu(out expectedResult, user);
+            sut.LoginMenuLogic(out user);
+
+            Assert.Equal(expectedResult,sut.LoginMenuLogic(out user));
+        }
+
+        public static IEnumerable<object[]> LoginMenuLogicData => new List<object[]>
+        {
+            new object[] { false, "1" },
+            new object[] { false, "2" },
+            new object[] { false, "5" },
+        };*/
+
+        [Fact]
+        public void SortAndOrganizeScores_ComparingTwoUserBasedOffOfWinPercentage_ReturnsValid()
+        {
+            var result = 0;
+            var result2 = 0;
+            var list = DataAccess.Instance.GetUsers();
+            var user1 = new User
+            {
+                Username = "user1",
+                Wins = 10,
+                Losses = 0,
+                Draws = 0
+            };
+            var user2 = new User
+            {
+                Username = "user2",
+                Wins = 5,
+                Losses = 5,
+                Draws = 0
+            };
+            var menuLogic = new MenuOptionLogic();
+            var sut = menuLogic.SortAndOrganizeScores(list);
+
+            foreach (var item in list)
+            {
+                result = item.WinPercentage;
+            }
+
+            foreach (var item in sut)
+            {
+                result2 = item.WinPercentage;
+            }
+            Assert.Equal(result2, result);
+        }
+
+        [Fact]
+        public void TopFiveLeaderBoard_AddMoreThanFiveUsersToListToConfirmProperSortingAndDisplay_ReturnsValid()
+        {
+            DataAccess.Instance.EraseAllUserData();
+            var actualList = DataAccess.Instance.GetUsers();
+            List<User> controlList = new List<User>();
+            var database = DataAccess.Instance;
+            var sut = new MenuOptionLogic();
+
+            var result1 = 0;
+            var result2 = 0;
+
+            // creating 6 users with various win rates
+            var user1 = new User{ Username = "user1", Wins = 10, Losses = 0, Draws = 0 };
+            var user2 = new User{ Username = "user2", Wins = 5, Losses = 5, Draws = 0 };
+            var user3 = new User{ Username = "user3", Wins = 110, Losses = 20, Draws = 50 };
+            var user4 = new User{ Username = "user4", Wins = 57, Losses = 15, Draws = 30 };
+            var user5 = new User{ Username = "user5", Wins = 105, Losses = 120, Draws = 210 };
+            var user6 = new User{ Username = "user6", Wins = 56, Losses = 51, Draws = 70 };
+
+            //Adding users to database in improper order for method to be tested and return top five results
+            database.AddUser(user1);
+            database.AddUser(user2);
+            database.AddUser(user3);
+            database.AddUser(user4);
+            database.AddUser(user5);
+            database.AddUser(user6);
+
+            foreach (var item in sut.TopFiveLeaderBoard())
+            {
+                result1 = item.WinPercentage;
+            }
+
+            //Adding Top 5 to list in proper order and adding to result2
+            controlList.Add(user1);
+            controlList.Add(user3);
+            controlList.Add(user4);
+            controlList.Add(user2);
+            controlList.Add(user6);
+
+            foreach (var item in controlList)
+            {
+                result2 = item.WinPercentage;
+            }
+
+            //test
+            Assert.Equal(result1, result2);
+        }
     }
 }
